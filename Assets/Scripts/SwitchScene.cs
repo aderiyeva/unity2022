@@ -9,7 +9,7 @@ public class SwitchScene : MonoBehaviour
     [SerializeField]
     private string loadScene;
 
-    // Update is called once per frame
+    // Switch the scene if the Player hits the cheating portal
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

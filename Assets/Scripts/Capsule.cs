@@ -10,7 +10,7 @@ public class Capsule : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+    // Adding constant rotation to the finishing element
     void Update()
     {
         transform.Rotate(new Vector3 (0f, 0f, 50f) * Time.deltaTime);

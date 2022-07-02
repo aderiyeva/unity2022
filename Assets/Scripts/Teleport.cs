@@ -7,7 +7,7 @@ public class Teleport : MonoBehaviour
     public GameObject portal;
     private GameObject player;
 
-    // Start is called before the first frame update
+    // 1-way teleport
     void Start()
     {
         player = GameObject.FindWithTag("Player");

@@ -13,11 +13,12 @@ public class Teleport : MonoBehaviour
         player = GameObject.FindWithTag("Player");
     }
 
+    // Teleport the player to the destination on enter
     private void OnTriggerEnter(Collider collision) {
 
-        if(collision.tag == "Player"){
+        if(collision.tag == "Player")
+        {
             player.transform.position = new Vector3(portal.transform.position.x, portal.transform.position.y, portal.transform.position.z);
         }    
-
     }
 }

@@ -4,42 +4,54 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed = 5f;
+    [SerializeField] private GameObject _bulletPrefab; // reference to the bullet prefab object
+    [SerializeField] private float _speed = 5f; // player movement speed
 
-    public float jumpHeight = 10f; // A public float so we can change its value easily in the inspector
-    public static bool isJumping = false; // This bool will tell us if our character is jumping or not
-    public Vector3 direction = Vector3.right;
+    public Vector3 defaultSpawnPosition = new Vector3(0f, 2f, 0f);
+
+    public float jumpHeight = 10f; 
+    public static bool isJumping = false;
+    public Vector3 direction = Vector3.right; // player movement axis
     
-    [SerializeField]
-    private GameObject _bulletPrefab;
-    
+    [SerializeField] public float health = 100; // current health
+    [SerializeField] public float maxHealth = 100; // maximum possible health
+    public HealthBar healthBar; // reference to the UI healthbar element
+    public bool alive; // player alive status
 
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(0f, 2f, 0f);
+        // Player is alive at first
+        alive = true;
+
+        // Starting position
+        transform.position = defaultSpawnPosition;
     }
 
-    // Update is called once per frame
+    // Calculate the player movement based on inputs
     void PlayerMovement()
     {
         // Input based movement
         float verticalInput = Input.GetAxis("Vertical");  
         float horizontalInput = Input.GetAxis("Horizontal");    
-        transform.Translate(direction* Time.deltaTime * _speed * horizontalInput);    
+        transform.Translate(direction * Time.deltaTime * _speed * horizontalInput);
+
+        // If the player falls below the map, respawn it at the starting location
         if(transform.position.y < -10)
         {
-            transform.position = new Vector3(0f, 2f, 0f);
+            transform.position = defaultSpawnPosition;
+            TakeDamage(25);
         }
 
+        // To make the player jump, a vertical impulse force is applied
         if (Input.GetButtonDown("Jump") && (isJumping == false)) 
         {
             GetComponent<Rigidbody>().AddForce(new Vector3(0f, jumpHeight, 0f), ForceMode.Impulse);
         }
 
     }
-    // Jumping
+
+    // Player is not currently jumping when touching the ground 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.tag == "Platform" || collision.collider.tag == "cheat") 
@@ -47,7 +59,8 @@ public class Player : MonoBehaviour
             isJumping = false;
         }
     }
-    // Update is called once per frame
+
+    // Player is currently jumping when not touching the ground 
     private void OnCollisionExit(Collision collision)
     {
         if (collision.collider.tag == "Platform" || collision.collider.tag == "cheat")
@@ -55,26 +68,50 @@ public class Player : MonoBehaviour
             isJumping = true;
         }
     }
-    // Shooting bullets
+
     void Update()
     {
-        PlayerMovement();
-
-        // SPAWN BULLET 
-        if (Input.GetKeyDown(KeyCode.E))
+        if(alive)
         {
-            Instantiate(_bulletPrefab, transform.position, Quaternion.identity);
+            // Process player movements
+            PlayerMovement();
+
+            // Create bullet when shooting
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Instantiate(_bulletPrefab, transform.position, Quaternion.identity);
+            }
+
+            // Set player status to dead if health drops below zero
+            if(health <= 0)
+            {
+                alive = false;
+                Time.timeScale = 0;
+            }
         }
     }
 
-    // Enemy caused death
+    // If player comes into contact with an enemy or rain, take damage
     private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.tag == "Enemy") 
         {
-            Debug.Log( collision.tag);
-            if (collision.tag == "Bullet") 
-                {
-                    Destroy(this.gameObject);
-                }
+            TakeDamage(25);
         }
+        if (collision.tag == "RainDrop") 
+        {
+            TakeDamage(5);
+        }
+    }
 
+    // Apply damage to player and update UI healthbar
+    public void TakeDamage(float damage)
+    {    
+        health -= damage;
+
+        // Restrict health to zero to avoid weird UI changes
+        health = Mathf.Max(health, 0f);
+
+        healthBar.UpdateHealthBar();  
+    }
 }

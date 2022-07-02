@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Cheat.unity
     guid: 32e1b80c9e4a98f4cb6c1f8de53a4abb
+  - enabled: 1
+    path: Assets/Scenes/WInningScene.unity
+    guid: ac5c8ada70a64924995c421def89861a
   m_configObjects: {}

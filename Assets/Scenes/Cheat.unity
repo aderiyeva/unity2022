@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 124511933}
   - component: {fileID: 124511932}
   - component: {fileID: 124511931}
+  - component: {fileID: 124511937}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -156,8 +157,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa70b2f11fd12c4098a94489f768d04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bulletPrefab: {fileID: 0}
   _speed: 5
+  defaultSpawnPosition: {x: 0, y: 2, z: 0}
   jumpHeight: 10
+  direction: {x: 1, y: 0, z: 0}
+  health: 100
+  maxHealth: 100
+  healthBar: {fileID: 0}
+  alive: 0
 --- !u!114 &124511932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,8 +178,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa70b2f11fd12c4098a94489f768d04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bulletPrefab: {fileID: 0}
   _speed: 5
+  defaultSpawnPosition: {x: 0, y: 2, z: 0}
   jumpHeight: 10
+  direction: {x: 1, y: 0, z: 0}
+  health: 100
+  maxHealth: 100
+  healthBar: {fileID: 0}
+  alive: 0
 --- !u!65 &124511933
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -248,6 +263,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &124511937
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124511930}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &166702728
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,6 +545,7 @@ GameObject:
   - component: {fileID: 228992271}
   - component: {fileID: 228992270}
   - component: {fileID: 228992269}
+  - component: {fileID: 228992274}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Finish
@@ -541,7 +573,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 228992268}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -610,6 +642,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+--- !u!114 &228992274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228992268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d87f2ad6ea91d42a740cf1244b655c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadScene: WinningScene
 --- !u!1 &1009965779
 GameObject:
   m_ObjectHideFlags: 0
